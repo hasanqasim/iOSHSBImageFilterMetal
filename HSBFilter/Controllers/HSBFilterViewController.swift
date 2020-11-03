@@ -134,7 +134,7 @@ extension HSBFilterViewController {
     func getLabelANDSliderHStack(text: String, min: Float, max: Float, defaultValue: Float) -> UIStackView {
         let label = createLabel(text: text)
         let slider = createSlider(min: min, max: max, defaultValue: defaultValue)
-        if (label.text == "Hue") { slider.addTarget(self, action: #selector(self.hueSliderValueDidChange(_:)), for: .valueChanged)}
+        if (label.text == "Hue") {slider.addTarget(self, action: #selector(self.hueSliderValueDidChange(_:)), for: .valueChanged)}
         if (label.text == "Saturation") { slider.addTarget(self, action: #selector(self.saturationSliderValueDidChange(_:)), for: .valueChanged)}
         if (label.text == "Brightness") { slider.addTarget(self, action: #selector(self.brightnessSliderValueDidChange(_:)), for: .valueChanged)}
         let hStackView = addHorizontalStackView(label: label, slider: slider)
