@@ -36,10 +36,17 @@ class MetalViewController: UIViewController {
         context = CIContext(mtlDevice: device)
         filter = initFilter()
         initMetalView()
+        addLeftBarButton()
         
-        self.navigationItem.setLeftBarButton(UIBarButtonItem(barButtonSystemItem: .edit,
-                                                                 target: self,
-                                                                 action: #selector(barButtonItemClicked)), animated: true)
+        
+        for family: String in UIFont.familyNames
+               {
+                   print(family)
+                   for names: String in UIFont.fontNames(forFamilyName: family)
+                   {
+                       print("== \(names)")
+                   }
+               }
     }
     
     @objc func barButtonItemClicked() {
@@ -53,6 +60,13 @@ class MetalViewController: UIViewController {
 
 // MARK: Image Filtering
 extension MetalViewController {
+    
+    func addLeftBarButton() {
+        let adjustHSBButton = UIBarButtonItem(title: "Adjust HSB", style: .plain, target: self, action: #selector(barButtonItemClicked))
+        adjustHSBButton.setTitleTextAttributes([NSAttributedString.Key.font : UIFont(name: "SFUIDisplay-Semibold", size: 22)!,
+                                                NSAttributedString.Key.foregroundColor : UIColor.black,], for: .normal)
+        self.navigationItem.setLeftBarButton(adjustHSBButton, animated: true)
+    }
     
     func initDefaultGPU() {
         if let device = MTLCreateSystemDefaultDevice() {

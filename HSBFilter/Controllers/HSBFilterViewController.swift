@@ -23,13 +23,13 @@ class HSBFilterViewController: UIViewController {
         // Do any additional setup after loading the view.
         
         modifyView()
-    
+        createSubview()
         let hueStack = getLabelANDSliderHStack(text: "Hue", min: -Float.pi, max: Float.pi, defaultValue: 0)
         let saturationStack = getLabelANDSliderHStack(text: "Saturation", min: 0, max: 2, defaultValue: 1)
         let brightnessStack = getLabelANDSliderHStack(text: "Brightness", min: -1, max: 1, defaultValue: 0)
         addVerticalStackView(stackOne: hueStack, stackTwo: saturationStack, stackThree: brightnessStack)
         
-        createSubview()
+       
         addDismissLabel()
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
@@ -54,18 +54,19 @@ class HSBFilterViewController: UIViewController {
      }
 }
 
+// MARK: label, slider and views
 extension HSBFilterViewController {
     
     func modifyView() {
         self.view.backgroundColor = .white
-        self.view.layer.cornerRadius = 10
+        self.view.layer.cornerRadius = 20
         self.view.clipsToBounds = true
         self.view.addSubview(backdropView)
     }
     
     func createSubview() {
         let subview = UIView()
-        subview.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+        subview.backgroundColor = #colorLiteral(red: 0.9208909648, green: 0.9208909648, blue: 0.9208909648, alpha: 1)
         subview.layer.cornerRadius = 5
         view.addSubview(subview)
         subview.translatesAutoresizingMaskIntoConstraints = false
@@ -78,7 +79,7 @@ extension HSBFilterViewController {
     func createLabel(text: String) -> UILabel {
         let label = UILabel()
         label.text = text
-        label.font = UIFont(name: "Avenir", size: 17)
+        label.font = UIFont(name: "SFUIText-Regular", size: 15)
         label.textColor = UIColor.black
         label.textAlignment = .left
         return label
@@ -95,16 +96,17 @@ extension HSBFilterViewController {
     
     func addDismissLabel() {
         let label = createLabel(text: "Dismiss")
-        label.font = .systemFont(ofSize: 22)
-        label.textColor = UIColor.systemBlue
+        label.font = UIFont(name: "SFUIDisplay-Semibold", size: 22)
+        label.textColor = UIColor.black
         self.view.addSubview(label)
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -8).isActive = true
-        label.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 4).isActive = true
+        label.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -12).isActive = true
+        label.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 6).isActive = true
     }
     
 }
 
+// MARK: UIStack Views
 extension HSBFilterViewController {
     
     func addVerticalStackView(stackOne: UIStackView, stackTwo: UIStackView, stackThree: UIStackView) {

@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A64367492550E1FE00AFC27F /* SF-UI-Display-Ultralight.otf in Resources */ = {isa = PBXBuildFile; fileRef = A64367472550E1FE00AFC27F /* SF-UI-Display-Ultralight.otf */; };
+		A643674A2550E1FE00AFC27F /* SF-UI-Display-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = A64367482550E1FE00AFC27F /* SF-UI-Display-Light.otf */; };
+		A643674D2550E37400AFC27F /* SF-UI-Text-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = A643674C2550E37400AFC27F /* SF-UI-Text-Regular.otf */; };
+		A64367502550E4B000AFC27F /* SF-UI-Display-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = A643674F2550E4B000AFC27F /* SF-UI-Display-Semibold.otf */; };
 		A6B2C4C6254FF1D400357422 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6B2C4C5254FF1D400357422 /* AppDelegate.swift */; };
 		A6B2C4C8254FF1D400357422 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6B2C4C7254FF1D400357422 /* SceneDelegate.swift */; };
 		A6B2C4CA254FF1D400357422 /* MetalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6B2C4C9254FF1D400357422 /* MetalViewController.swift */; };
@@ -19,6 +23,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A64367472550E1FE00AFC27F /* SF-UI-Display-Ultralight.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SF-UI-Display-Ultralight.otf"; path = "../../../Resources/SF-UI-Display-Ultralight.otf"; sourceTree = "<group>"; };
+		A64367482550E1FE00AFC27F /* SF-UI-Display-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SF-UI-Display-Light.otf"; path = "../../../Resources/SF-UI-Display-Light.otf"; sourceTree = "<group>"; };
+		A643674C2550E37400AFC27F /* SF-UI-Text-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SF-UI-Text-Regular.otf"; path = "../../../Resources/SF-UI-Text-Regular.otf"; sourceTree = "<group>"; };
+		A643674F2550E4B000AFC27F /* SF-UI-Display-Semibold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SF-UI-Display-Semibold.otf"; path = "../../../Resources/SF-UI-Display-Semibold.otf"; sourceTree = "<group>"; };
 		A6B2C4C2254FF1D400357422 /* HSBFilter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HSBFilter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6B2C4C5254FF1D400357422 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A6B2C4C7254FF1D400357422 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -43,6 +51,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A643673C2550DDD500AFC27F /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				A643674F2550E4B000AFC27F /* SF-UI-Display-Semibold.otf */,
+				A64367482550E1FE00AFC27F /* SF-UI-Display-Light.otf */,
+				A64367472550E1FE00AFC27F /* SF-UI-Display-Ultralight.otf */,
+				A643674C2550E37400AFC27F /* SF-UI-Text-Regular.otf */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		A6B2C4B9254FF1D400357422 = {
 			isa = PBXGroup;
 			children = (
@@ -62,9 +81,10 @@
 		A6B2C4C4254FF1D400357422 /* HSBFilter */ = {
 			isa = PBXGroup;
 			children = (
+				A643673C2550DDD500AFC27F /* Resources */,
 				A6B2C4E625500DB600357422 /* Helper */,
 				A6B2C4E0255008FA00357422 /* Protocol */,
-				A6B2C4DA254FF1E900357422 /* Controller */,
+				A6B2C4DA254FF1E900357422 /* Controllers */,
 				A6B2C4C5254FF1D400357422 /* AppDelegate.swift */,
 				A6B2C4C7254FF1D400357422 /* SceneDelegate.swift */,
 				A6B2C4CB254FF1D400357422 /* Main.storyboard */,
@@ -75,13 +95,13 @@
 			path = HSBFilter;
 			sourceTree = "<group>";
 		};
-		A6B2C4DA254FF1E900357422 /* Controller */ = {
+		A6B2C4DA254FF1E900357422 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
 				A6B2C4C9254FF1D400357422 /* MetalViewController.swift */,
 				A6B2C4DD255006EB00357422 /* HSBFilterViewController.swift */,
 			);
-			path = Controller;
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 		A6B2C4E0255008FA00357422 /* Protocol */ = {
@@ -157,9 +177,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A64367502550E4B000AFC27F /* SF-UI-Display-Semibold.otf in Resources */,
+				A643674A2550E1FE00AFC27F /* SF-UI-Display-Light.otf in Resources */,
 				A6B2C4D2254FF1D900357422 /* LaunchScreen.storyboard in Resources */,
+				A643674D2550E37400AFC27F /* SF-UI-Text-Regular.otf in Resources */,
 				A6B2C4CF254FF1D900357422 /* Assets.xcassets in Resources */,
 				A6B2C4CD254FF1D400357422 /* Main.storyboard in Resources */,
+				A64367492550E1FE00AFC27F /* SF-UI-Display-Ultralight.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
