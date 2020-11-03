@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol SliderDidMoveDelegate {
+protocol SliderDidMoveDelegate: class {
     func hueSliderMoved(sliderValue: Float)
     func saturationSliderMoved(sliderValue: Float)
     func brightnessSliderMoved(sliderValue: Float)

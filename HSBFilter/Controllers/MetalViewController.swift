@@ -31,6 +31,7 @@ class MetalViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
+        view.backgroundColor = .systemGray5
         initDefaultGPU()
         sourceTexture = loadMetalTexture()
         context = CIContext(mtlDevice: device)
@@ -38,15 +39,13 @@ class MetalViewController: UIViewController {
         initMetalView()
         addLeftBarButton()
         
-        
-        for family: String in UIFont.familyNames
-               {
-                   print(family)
-                   for names: String in UIFont.fontNames(forFamilyName: family)
-                   {
-                       print("== \(names)")
-                   }
-               }
+        HandleDoubleTap()
+    }
+    
+    @objc func doubleTapped() {
+        hue = 0
+        saturation = 1
+        brightness = 0
     }
     
     @objc func barButtonItemClicked() {
@@ -60,6 +59,12 @@ class MetalViewController: UIViewController {
 
 // MARK: Image Filtering
 extension MetalViewController {
+    
+    func HandleDoubleTap() {
+        let doubleTap = UITapGestureRecognizer(target: self, action: #selector(doubleTapped))
+        doubleTap.numberOfTapsRequired = 2
+        self.view.addGestureRecognizer(doubleTap)
+    }
     
     func addLeftBarButton() {
         let adjustHSBButton = UIBarButtonItem(title: "Adjust HSB", style: .plain, target: self, action: #selector(barButtonItemClicked))
@@ -107,8 +112,12 @@ extension MetalViewController {
         metalView.translatesAutoresizingMaskIntoConstraints = false
         metalView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 0).isActive = true
         metalView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: 0).isActive = true
-        metalView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
-        metalView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
+        //metalView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 128).isActive = true
+        //metalView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -128).isActive = true
+        
+        metalView.heightAnchor.constraint(equalToConstant: 256).isActive = true
+        metalView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        metalView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
     }
 
     

@@ -9,7 +9,7 @@ import UIKit
 
 class HSBFilterViewController: UIViewController {
     
-    var delegate: SliderDidMoveDelegate!
+    weak var delegate: SliderDidMoveDelegate!
     
     lazy var backdropView: UIView = {
         let bdView = UIView(frame: CGRect(x:0, y:0, width: self.view.bounds.width, height: 30))
@@ -24,17 +24,17 @@ class HSBFilterViewController: UIViewController {
         
         modifyView()
         createSubview()
+        
         let hueStack = getLabelANDSliderHStack(text: "Hue", min: -Float.pi, max: Float.pi, defaultValue: 0)
         let saturationStack = getLabelANDSliderHStack(text: "Saturation", min: 0, max: 2, defaultValue: 1)
         let brightnessStack = getLabelANDSliderHStack(text: "Brightness", min: -1, max: 1, defaultValue: 0)
+        
         addVerticalStackView(stackOne: hueStack, stackTwo: saturationStack, stackThree: brightnessStack)
         
-       
         addDismissLabel()
         
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
-        backdropView.addGestureRecognizer(tapGesture)
-
+        handleDismissTap()
+        
     }
     
     @objc func handleTap(_ sender: UITapGestureRecognizer) {
@@ -56,6 +56,11 @@ class HSBFilterViewController: UIViewController {
 
 // MARK: label, slider and views
 extension HSBFilterViewController {
+    
+    func handleDismissTap() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
+        backdropView.addGestureRecognizer(tapGesture)
+    }
     
     func modifyView() {
         self.view.backgroundColor = .white
@@ -146,6 +151,5 @@ extension HSBFilterViewController {
         stackView.addArrangedSubview(slider)
         return stackView
     }
-    
 }
 
