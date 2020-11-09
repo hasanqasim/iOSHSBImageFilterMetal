@@ -33,6 +33,7 @@ class MetalViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
+        self.navigationController?.navigationBar.barTintColor = .white
         view.backgroundColor = #colorLiteral(red: 0.9208909648, green: 0.9208909648, blue: 0.9208909648, alpha: 1)
         
         initDefaultGPU()
@@ -113,7 +114,7 @@ extension MetalViewController {
         self.view.addGestureRecognizer(doubleTap)
     }
     
-    
+
     func loadMetalTexture() -> MTLTexture {
         let loader = MTKTextureLoader(device: device)
         do {
