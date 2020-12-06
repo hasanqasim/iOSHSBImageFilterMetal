@@ -9,11 +9,11 @@ import UIKit
 
 class HSBFilterViewController: UIViewController {
     
-    weak var delegate: SliderDidMoveDelegate!
+    weak var delegate: SliderDidMoveDelegate?
     
     lazy var backdropView: UIView = {
         let bdView = UIView(frame: CGRect(x:0, y:0, width: self.view.bounds.width, height: 30))
-        bdView.backgroundColor = UIColor.white
+        bdView.backgroundColor = UIColor.systemBackground
         return bdView
     }()
 
@@ -25,9 +25,9 @@ class HSBFilterViewController: UIViewController {
         modifyView()
         createSubview()
         
-        let hueStack = getLabelANDSliderHStack(text: "Hue", min: -Float.pi, max: Float.pi, defaultValue: 0)
-        let saturationStack = getLabelANDSliderHStack(text: "Saturation", min: 0, max: 2, defaultValue: 1)
-        let brightnessStack = getLabelANDSliderHStack(text: "Brightness", min: -1, max: 1, defaultValue: 0)
+        let hueStack = getLabelANDSliderHStack(text: "Hue", min: -Float.pi, max: Float.pi, defaultValue: 0, action: #selector(self.hueSliderValueDidChange(_:)))
+        let saturationStack = getLabelANDSliderHStack(text: "Saturation", min: 0, max: 2, defaultValue: 1, action: #selector(self.saturationSliderValueDidChange(_:)))
+        let brightnessStack = getLabelANDSliderHStack(text: "Brightness", min: -1, max: 1, defaultValue: 0, action: #selector(self.brightnessSliderValueDidChange(_:)))
         
         addVerticalStackView(stackOne: hueStack, stackTwo: saturationStack, stackThree: brightnessStack)
         
@@ -42,15 +42,21 @@ class HSBFilterViewController: UIViewController {
     }
     
     @objc func hueSliderValueDidChange(_ sender:UISlider!) {
-        delegate.hueSliderMoved(sliderValue: sender.value)
+        if let sliderMoveDelegate = delegate {
+            sliderMoveDelegate.hueSliderMoved(sliderValue: sender.value)
+        }
      }
     
     @objc func saturationSliderValueDidChange(_ sender:UISlider!) {
-        delegate.saturationSliderMoved(sliderValue: sender.value)
+        if let sliderMoveDelegate = delegate {
+            sliderMoveDelegate.saturationSliderMoved(sliderValue: sender.value)
+        }
      }
         
     @objc func brightnessSliderValueDidChange(_ sender:UISlider!) {
-        delegate.brightnessSliderMoved(sliderValue: sender.value)
+        if let sliderMoveDelegate = delegate {
+            sliderMoveDelegate.brightnessSliderMoved(sliderValue: sender.value)
+        }
      }
 }
 
@@ -63,7 +69,7 @@ extension HSBFilterViewController {
     }
     
     func modifyView() {
-        self.view.backgroundColor = .white
+        self.view.backgroundColor = .systemBackground
         self.view.layer.cornerRadius = 20
         self.view.clipsToBounds = true
         self.view.addSubview(backdropView)
@@ -71,8 +77,15 @@ extension HSBFilterViewController {
     
     func createSubview() {
         let subview = UIView()
-        subview.backgroundColor = #colorLiteral(red: 0.9208909648, green: 0.9208909648, blue: 0.9208909648, alpha: 1)
-        subview.layer.cornerRadius = 5
+        subview.backgroundColor = UIColor { traitCollection in
+            switch traitCollection.userInterfaceStyle {
+            case .dark:
+              return .systemGray5
+            default:
+              return #colorLiteral(red: 0.9413269353, green: 0.9413269353, blue: 0.9413269353, alpha: 1)
+            }
+        }
+        subview.layer.cornerRadius = 15
         view.addSubview(subview)
         subview.translatesAutoresizingMaskIntoConstraints = false
         subview.heightAnchor.constraint(equalToConstant: 124).isActive = true
@@ -85,7 +98,7 @@ extension HSBFilterViewController {
         let label = UILabel()
         label.text = text
         label.font = UIFont(name: "SFUIText-Regular", size: 15)
-        label.textColor = UIColor.black
+        label.textColor = .label
         label.textAlignment = .left
         return label
     }
@@ -102,10 +115,11 @@ extension HSBFilterViewController {
     func addDismissLabel() {
         let label = createLabel(text: "Dismiss")
         label.font = UIFont(name: "SFUIDisplay-Semibold", size: 22)
-        label.textColor = UIColor.black
+        //
+        label.textColor = .label
         self.view.addSubview(label)
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -12).isActive = true
+        label.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -16).isActive = true
         label.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 6).isActive = true
     }
     
@@ -131,12 +145,11 @@ extension HSBFilterViewController {
         stackView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 40).isActive = true
     }
     
-    func getLabelANDSliderHStack(text: String, min: Float, max: Float, defaultValue: Float) -> UIStackView {
+    
+    func getLabelANDSliderHStack(text: String, min: Float, max: Float, defaultValue: Float, action: Selector) -> UIStackView {
         let label = createLabel(text: text)
         let slider = createSlider(min: min, max: max, defaultValue: defaultValue)
-        if (label.text == "Hue") {slider.addTarget(self, action: #selector(self.hueSliderValueDidChange(_:)), for: .valueChanged)}
-        if (label.text == "Saturation") { slider.addTarget(self, action: #selector(self.saturationSliderValueDidChange(_:)), for: .valueChanged)}
-        if (label.text == "Brightness") { slider.addTarget(self, action: #selector(self.brightnessSliderValueDidChange(_:)), for: .valueChanged)}
+        slider.addTarget(self, action: action, for: .valueChanged)
         let hStackView = addHorizontalStackView(label: label, slider: slider)
         return hStackView
     }

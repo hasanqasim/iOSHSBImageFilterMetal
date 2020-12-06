@@ -23,9 +23,9 @@ class MetalViewController: UIViewController {
     var filter: CIFilter!
     let colorSpace = CGColorSpaceCreateDeviceRGB()
     
-    var hue: Float!
-    var saturation: Float!
-    var brightness: Float!
+    var hue: Float = 0
+    var saturation: Float = 1
+    var brightness: Float = 0
     
     let defaults = UserDefaults.standard
 
@@ -33,8 +33,15 @@ class MetalViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        self.navigationController?.navigationBar.barTintColor = .white
-        view.backgroundColor = #colorLiteral(red: 0.9208909648, green: 0.9208909648, blue: 0.9208909648, alpha: 1)
+        self.navigationController?.navigationBar.barTintColor = .systemBackground
+        view.backgroundColor = UIColor { traitCollection in
+              switch traitCollection.userInterfaceStyle {
+              case .dark:
+                return .systemBackground
+              default:
+                return #colorLiteral(red: 0.9413269353, green: 0.9413269353, blue: 0.9413269353, alpha: 1)
+              }
+            }
         
         initDefaultGPU()
         sourceTexture = loadMetalTexture()
@@ -73,14 +80,12 @@ extension MetalViewController {
         }
     }
     
+    // this was ear marked by engineers to be a fuck up
     func initFilter() -> CIFilter? {
-        brightness = 0
-        saturation = 1
-        hue = 0
-        
-        let filter = CIFilter(name: "CIColorControls", parameters: [kCIInputBrightnessKey : brightness!,
-                                                                kCIInputSaturationKey : saturation!])
-        return filter!
+      guard let filter = CIFilter(name: "CIColorControls", parameters: [kCIInputBrightnessKey : brightness, kCIInputSaturationKey : saturation]) else {
+            return nil
+        }
+        return filter
     }
         
     func initMetalView() {
@@ -103,8 +108,8 @@ extension MetalViewController {
     
     func addLeftBarButton() {
         let adjustHSBButton = UIBarButtonItem(title: "Adjust HSB", style: .plain, target: self, action: #selector(barButtonItemClicked))
-        adjustHSBButton.setTitleTextAttributes([NSAttributedString.Key.font : UIFont(name: "SFUIDisplay-Semibold", size: 22)!,
-                                                NSAttributedString.Key.foregroundColor : UIColor.black,], for: .normal)
+        adjustHSBButton.setTitleTextAttributes([NSAttributedString.Key.font : UIFont(name: "SFUIDisplay-Semibold", size: 22)!,], for: .normal)
+        adjustHSBButton.tintColor = .label
         self.navigationItem.setLeftBarButton(adjustHSBButton, animated: true)
     }
     
@@ -129,11 +134,11 @@ extension MetalViewController {
     }
     
     func applyFilterChain(to image: CIImage) -> CIImage? {
-        filter.setValuesForKeys([kCIInputImageKey: image, kCIInputBrightnessKey : brightness!, kCIInputSaturationKey : saturation!])
+        filter.setValuesForKeys([kCIInputImageKey: image, kCIInputBrightnessKey : brightness, kCIInputSaturationKey : saturation])
         guard let brightenedANDSaturatedOutputCIImage = filter.outputImage else {
             return nil
         }
-        let hueCIImage = brightenedANDSaturatedOutputCIImage.applyingFilter("CIHueAdjust", parameters: [kCIInputAngleKey : hue!])
+        let hueCIImage = brightenedANDSaturatedOutputCIImage.applyingFilter("CIHueAdjust", parameters: [kCIInputAngleKey : hue])
         return hueCIImage
     }
 }
@@ -190,10 +195,7 @@ extension MetalViewController: MTKViewDelegate {
 //MARK: Instructions Alert
 extension MetalViewController {
     func showInstructionsAlert() {
-        let message = """
-                        Tap Adjust HSB for filter.
-                        Double tap on image to undo.
-                      """
+        let message = "Tap Adjust HSB for filter.\nDouble tap on image to undo."
         let alert = UIAlertController(title: "Instructions", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: nil))
         self.present(alert, animated: true)
